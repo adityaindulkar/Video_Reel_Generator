@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md text-center">
+    <h1 class="text-2xl font-bold mb-6">Your Reel is Ready!</h1>
+    
+    <div class="mb-6">
+        <video controls class="w-full max-h-96 mx-auto rounded-lg border border-gray-200">
+            <source src="{{ video_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="flex justify-center gap-4">
+        <a href="{{ video_url }}" download
+           class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 inline-block transition-colors">
+            Download Reel
+        </a>
+        <a href="{{ url_for('index') }}"
+           class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300 inline-block transition-colors">
+            Create Another
+        </a>
+    </div>
+</div>
+{% endblock %}

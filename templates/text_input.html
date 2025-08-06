@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6">Create Reel with Text-to-Speech</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Images (JPG, JPEG, PNG) <br> (Reel Generation would fail for invalid file type or size)</label>
+            <input type="file" id="image-upload" name="images" multiple accept="image/*" class="w-full p-2 border rounded" required>
+        </div>
+        
+        <!-- Image preview container -->
+        <div id="image-preview-container" class="mb-4 grid grid-cols-3 gap-4">
+            <!-- Preview cards will be added here dynamically -->
+        </div>
+        
+        <div id="duration-container" class="mb-4">
+            <!-- Durations will be added here dynamically -->
+        </div>
+        
+        <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Text for Audio</label>
+            <textarea name="text" rows="4" class="w-full p-2 border rounded" required></textarea>
+        </div>
+        
+        <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+            Generate Reel
+        </button>
+    </form>
+</div>
+
+<script>
+// Store the current files globally
+let currentFiles = [];
+
+document.getElementById('image-upload').addEventListener('change', function(e) {
+    const previewContainer = document.getElementById('image-preview-container');
+    const durationContainer = document.getElementById('duration-container');
+    
+    // Clear previous previews and durations
+    previewContainer.innerHTML = '';
+    durationContainer.innerHTML = '';
+    
+    // Process all files (existing + new)
+    Array.from(e.target.files).forEach((file, index) => {
+        if (!file.type.match('image.*')) return;
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            // Create preview card
+            const previewCard = document.createElement('div');
+            previewCard.className = 'relative border rounded-lg overflow-hidden group';
+            previewCard.dataset.filename = file.name;  // Add filename as data attribute
+            
+            previewCard.innerHTML = `
+                <img src="${event.target.result}" alt="${file.name}" class="w-full h-32 object-cover">
+                <div class="p-2">
+                    <p class="text-sm text-gray-600 truncate">${file.name}</p>
+                </div>
+                <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    ×
+                </button>
+            `;
+            previewContainer.appendChild(previewCard);
+            
+            // Add duration input
+            const durationDiv = document.createElement('div');
+            durationDiv.className = 'mb-2';
+            durationDiv.innerHTML = `
+                <label class="block text-gray-700 mb-1">Duration for ${file.name} (seconds)</label>
+                <input type="number" name="durations" min="1" step="0.1" value="3" class="w-full p-2 border rounded" required>
+            `;
+            durationContainer.appendChild(durationDiv);
+            
+            // Add delete button functionality
+            previewCard.querySelector('button').addEventListener('click', function() {
+                // Remove the file from input
+                const dataTransfer = new DataTransfer();
+                Array.from(e.target.files).forEach(f => {
+                    if (f.name !== file.name) {  // Only keep files that don't match the deleted one
+                        dataTransfer.items.add(f);
+                    }
+                });
+                e.target.files = dataTransfer.files;
+                
+                // Remove the preview and duration elements
+                previewCard.remove();
+                durationDiv.remove();
+                
+                // Update currentFiles
+                currentFiles = Array.from(e.target.files);
+            });
+        };
+        
+        reader.readAsDataURL(file);
+    });
+    
+    // Update currentFiles
+    currentFiles = Array.from(e.target.files);
+});
+</script>
+
+<style>
+    /* Add some smooth transitions for the delete button */
+    .group:hover .group-hover\:opacity-100 {
+        transition: opacity 0.2s ease-in-out;
+    }
+</style>
+{% endblock %}

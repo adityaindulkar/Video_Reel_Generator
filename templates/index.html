@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-3xl font-bold mb-8">Reel Generator</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+        <a href="{{ url_for('audio_input') }}" 
+           class="bg-blue-500 hover:bg-blue-600 text-white py-4 px-8 rounded-lg text-center transition duration-300">
+            <h2 class="text-xl font-semibold mb-2">Option 1</h2>
+            <p>Images + Audio File</p>
+        </a>
+        
+        <a href="{{ url_for('text_input') }}" 
+           class="bg-green-500 hover:bg-green-600 text-white py-4 px-8 rounded-lg text-center transition duration-300">
+            <h2 class="text-xl font-semibold mb-2">Option 2</h2>
+            <p>Images + Text (Audio Generated)</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
