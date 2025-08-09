@@ -2,6 +2,17 @@
 ## Overview
 A Flask-based web application that automatically generates video reels from images and audio/text inputs. Perfect for creating social media content, slideshows, and presentations.
 
+## Tech Stack
+
+### Backend
+Python 3.8+   
+Flask framework   
+FFmpeg for video processing   
+gTTS/ElevenLabs for text-to-speech   
+
+### Frontend
+HTML5, CSS3, JavaScript (Responsive design, File upload validation )    
+
 ## Key Features
 ### Input Options
 **Audio + Images**: Upload audio files with matching images    
@@ -22,20 +33,7 @@ Smooth fade transitions between images
 HD video output (1080p)    
 Optimized for social media    
 Downloadable MP4 files    
-Preview before download    
-
-## Technology Stack
-
-### Backend
-Python 3.8+   
-Flask framework   
-FFmpeg for video processing   
-gTTS/ElevenLabs for text-to-speech   
-
-### Frontend
-HTML5, CSS3, JavaScript    
-Responsive design    
-File upload validation    
+Preview before download       
 
 ## Supported Formats
 **Images**: JPG, JPEG, PNG, GIF    
